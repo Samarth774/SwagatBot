@@ -95,7 +95,7 @@ def extractANS():
             for x in f.readlines():
                 x = x.replace(" ", '')
                 write.append(int(x))
-    except Exception as e:
+    except Exception:
         print(
             "\033[31m" + "Error in answer.txt file\nAnswer should in number only" + '\033[37m')
         raise
