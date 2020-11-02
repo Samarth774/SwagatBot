@@ -9,7 +9,7 @@ que = Quiz.questions
 ans = Quiz.answers
 answer = Quiz.write
 print("Question length:", len(que))
-print("Question length:", len(ans))
+print("Question length:", ans)
 TOKEN = "1453960586:AAE3B-dCuotUK6hC_pmi2tAfAotlmsil7jE"
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',

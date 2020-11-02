@@ -81,39 +81,38 @@
 
 qfile = open("quiz.txt", "r", encoding="utf8")
 quizdata = qfile.readlines()
-# quizdata = ""
-# for x in qfile.readlines():
-#     quizdata += x
-# quizdata = quizdata.replace("\n", '')
+quizdata.append("##")
 qfile.close()
 
-# print(quizdata)
-
-# print("="*50)
 
 answers, questions = [], []
 write = []
 
 
 def extractANS():
-    with open("answer.txt", 'r') as f:
-        for x in f.readlines():
-            write.append(int(x))
+    try:
+        with open("answer.txt", 'r') as f:
+            for x in f.readlines():
+                x = x.replace(" ", '')
+                write.append(int(x))
+    except Exception as e:
+        print(
+            "\033[31m" + "Error in answer.txt file\nAnswer should in number only" + '\033[37m')
+        raise
 
 
 def extractOption(que):
     que = que.replace("\n", "")
     # q = que[len(extractQue(que)):]
-    if not que.startswith("("):
-        return
-    alloption = que.split("(")
-    for x in range(0, len(alloption)):
-        alloption[x] = "("+alloption[x]
-
-    return alloption[1:]
-
-
-lsst = []
+    alloption = que.split(")")
+    if ")" not in que[:3]:
+        return None
+    for x in range(0, len(alloption) - 1):
+        alloption[x] += ")"
+    lst = [""]
+    for x in alloption:
+        lst[0] += x
+    return lst
 
 
 def extractQue(que):
@@ -128,17 +127,21 @@ def start():
     for x in quizdata:
         x = x.rstrip("\n")
         quee = extractQue(x)
-
-        if x == "##":
+        if x == "":
+            pass
+        elif x == "##":
+            # print(tmplist)
             answers.append(tmplist)
             tmplist = []
         elif quee != None:
             if len(tmplist) > 0:
+                # print(tmplist)
                 answers.append(tmplist)
             tmplist = []
             questions.append(quee)
-        elif extractOption(x) != None:
-            tmplist.extend(extractOption(x))
+        else:
+            a = [x]
+            tmplist.extend(a)
     extractANS()
     # print(answers)
     # return questions, answers
@@ -147,9 +150,5 @@ def start():
 start()
 
 print(len(questions))
-# print(questions[0])
-# print(answers[0])
-# print(questions[1])
-# print(answers[1])
-# print(questions[2])
-# print(answers[2])
+for x in answers:
+    print(x)
